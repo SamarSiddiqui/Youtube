@@ -8,3 +8,9 @@
 -  By using useSearchParam, and its get method I am taking the video id.
 - Build the search suggestion method using search suggestion api of youtube and also included debouncing functionality.
 - Showed the search results to the UI.
+- Included Live Api search results, debouncing, and Caching in the search bar.
+Debouncing: Reduces the number of expensive operations (like API calls).
+Caching: Reuses previous results for faster responses.
+Cleanup: Prevents stale or unnecessary operations from running.
+
+- 

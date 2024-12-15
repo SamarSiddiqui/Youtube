@@ -1,32 +1,41 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { sideBarOpen } from '../utils/appSlice'
 import { Youtube_Search_Api } from '../utils/constants'
 import SearchBarDropDown from './SearchBarDropDown'
+import { cacheResults } from '../utils/searchSlice'
  
 const Header = () => {
    const dispatch = useDispatch()
-   const [searchInput,setSearchInput] = useState('')
+   const [searchQuery,setsearchQuery] = useState('')
    const [searchResults,setSearchResults] = useState([])
    const [showSuggestion,setShowSuggestion] = useState(false)
-   
+   const searchCache = useSelector((store)=>store.search)
+
    const toggleSideBar = ()=>{
      dispatch(sideBarOpen())
    }
-   
-   useEffect(()=>{
-    const timer = setTimeout(()=>fetchingData(),200)
+                            
+ useEffect(()=>{
+    const timer = setTimeout(()=>{
+      if(searchCache[searchQuery]){
+        setSearchResults(searchCache[searchQuery])
+      } else{
+        getSearchData()
+      }
+    },200)
     return () =>{clearTimeout(timer)}
-    
-  },[searchInput])
-  
-  
-  const fetchingData = async()=> { 
-    const data = await fetch(Youtube_Search_Api+searchInput)
+ },[searchQuery])
+
+  const getSearchData = async()=> { 
+    const data = await fetch(Youtube_Search_Api+searchQuery)
     const json = await data.json()
-  setSearchResults(json[1])
-  
+  setSearchResults(json[1])  
+  dispatch(cacheResults({
+    [searchQuery]:json[1]
+  }))
 }
+
   return (
     <div className='relative grid grid-flow-col shadow-lg items-center py-3 z-50'>
 
@@ -47,8 +56,8 @@ const Header = () => {
         onFocus={()=>setShowSuggestion(true)}
         onBlur={()=>setShowSuggestion(false) }
         placeholder='Search'
-        value={searchInput}
-        onChange={(e)=>setSearchInput(e.target.value)}
+        value={searchQuery}
+        onChange={(e)=>setsearchQuery(e.target.value)}
         />
             
         <button><i className=" bg-gray-300/30 rounded-r-full border border-gray-300 py-3 px-7 p-3 fa-solid fa-magnifying-glass hover:bg-gray-300"></i></button>
