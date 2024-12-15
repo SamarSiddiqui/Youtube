@@ -8,5 +8,7 @@ export const Youtube_Video_Api =   'https://youtube.googleapis.com/youtube/v3/vi
 export const Youtube_Comment_Api = 'https://youtube.googleapis.com/youtube/v3/commentThreads?part=snippet%2Creplies&maxResults=20&videoId=lr1L_xUKB1E&key='
 + Google_API_Key
 
+export const Youtube_Search_Api = 'http://suggestqueries.google.com/complete/search?client=firefox&ds=yt&q=' 
+
 
 
