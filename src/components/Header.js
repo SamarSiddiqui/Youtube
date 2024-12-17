@@ -29,6 +29,7 @@ const Header = () => {
 
   const getSearchData = async()=> { 
     const data = await fetch(Youtube_Search_Api+searchQuery)
+    
     const json = await data.json()
   setSearchResults(json[1])  
   dispatch(cacheResults({
@@ -37,7 +38,8 @@ const Header = () => {
 }
 
   return (
-    <div className='relative grid grid-flow-col shadow-lg items-center py-3 z-50'>
+    <div className='relative border-b-red-700 border-[2px]'>
+    <div className=' fixed top-0 grid grid-flow-col shadow-lg items-center py-3 z-50 w-screen bg-white'>
 
       { /* Logo&Menu */}
       <div className='flex col-span-1'>
@@ -73,6 +75,7 @@ const Header = () => {
         <i className="fa-regular fa-bell px-4"></i>
         <i className="fa-solid fa-user pl-4"></i>
       </div>
+    </div>
     </div>
   )
 }
